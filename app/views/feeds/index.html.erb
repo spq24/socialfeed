@@ -1,1 +1,5 @@
-<%= @twitter.user_timeline(277562395) %>
+<ul>
+	<%= @twitter.each do |t| %>
+		<li><%= t.text %></li>
+	<% end %>
+</ul>
