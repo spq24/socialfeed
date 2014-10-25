@@ -26,7 +26,7 @@ class FeedsController < ApplicationController
 		  end
 		end
 
-		@twitter = client.get_all_tweets(277562395)
+		@twitter = client.get_all_tweets(277562395).map { |t| [t.text, t.created_at.strftime("%m/%d/%Y")] }
 	end
 
 end
