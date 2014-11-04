@@ -11,22 +11,33 @@ class FeedsController < ApplicationController
 		end
 
 		
+		#twitter
+			def collect_with_max_id(collection=[], max_id=nil, &block)
+			  response = yield(max_id)
+			  collection += response
+			  response.empty? ? collection.flatten : collect_with_max_id(collection, response.last.id - 1, &block)
+			end
 
-		def collect_with_max_id(collection=[], max_id=nil, &block)
-		  response = yield(max_id)
-		  collection += response
-		  response.empty? ? collection.flatten : collect_with_max_id(collection, response.last.id - 1, &block)
-		end
+			def client.get_all_tweets(user)
+			  collect_with_max_id do |max_id|
+			    options = {:count => 200, :include_rts => true}
+			    options[:max_id] = max_id unless max_id.nil?
+			    user_timeline(user, options)
+			  end
+			end
 
-		def client.get_all_tweets(user)
-		  collect_with_max_id do |max_id|
-		    options = {:count => 200, :include_rts => true}
-		    options[:max_id] = max_id unless max_id.nil?
-		    user_timeline(user, options)
-		  end
-		end
+			@twitter = client.get_all_tweets(277562395).map { |t| [t.text, t.created_at.strftime("%m/%d/%Y")] }
 
-		@twitter = client.get_all_tweets(277562395).map { |t| [t.text, t.created_at.strftime("%m/%d/%Y")] }
-	end
+		 #Google_plus
+		 	GooglePlus.api_key = 'AIzaSyC-4Vg0e0CkGsS6yvJVCY_k3B2WnuNaQjU'
+		 	person = GooglePlus::Person.get(114826107014451422393)
+		 	@google = person.list_activities.items
+
+		 #Facebook
+		 @graph = Koala::Facebook::API.new("CAAC7XGwq2isBAKHzB1ZBUVPXhIiiwPA6eCPl7GImluZCCAiPVyMiGy3jqIORHzpUcuYhdEcQm2dSxEAtqVnQAaHz2d9rD5JqUNydYddaW7aNRkBwpZCPpqq5btb4zKseVdx0J9snKHkpgScIcriEf84iTvBy1GzyaRDEp8o991ScOOZBQPgpqtKvy7aub9YQyfNk7hIkL1dtjge2K1DkBXlmfZC184fAZD")
+		 feed = @graph.get_connections("me", "feed")
+		 @fb = feed.each {|f| f } # it's a subclass of Array
+		 @next_feed = feed.next_page
+		 end
 
 end

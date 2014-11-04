@@ -3,3 +3,15 @@
 		<li><%= t %></li>
 	<% end %>
 </ul>
+
+<ul>
+	<% @google.each do |g| %>
+		<li><%= g.title %></li>
+	<% end %>
+</ul>
+
+
+<% @fb.each do |f| %>
+<%= f["story"] %><%= f["created_time"].to_date.strftime("%m/%d/%Y") %>
+<% end %>
+<%= @next_feed %>

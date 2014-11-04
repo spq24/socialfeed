@@ -8,6 +8,9 @@ gem 'rails', '3.2.19'
 gem 'sqlite3'
 gem 'thin'
 gem 'twitter'
+gem 'google_plus'
+gem "omniauth-google-oauth2"
+gem "koala", "~> 1.10.0rc"
 gem 'figaro'
 
 
