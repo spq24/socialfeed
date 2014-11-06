@@ -10,8 +10,9 @@
 	<% end %>
 </ul>
 
-
+<ul>
 <% @fb.each do |f| %>
-<%= f["story"] %><%= f["created_time"].to_date.strftime("%m/%d/%Y") %>
+<li>[<%= f["story"] %><%= f["created_time"].to_date.strftime("%m/%d/%Y") %>]</li>
 <% end %>
 <%= @next_feed %>
+</ul>
