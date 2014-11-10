@@ -34,10 +34,11 @@ class FeedsController < ApplicationController
 		 	@google = person.list_activities.items
 
 		 #Facebook
-		 @graph = Koala::Facebook::API.new("CAAC7XGwq2isBANIAdA1vYDynQqxirQyCJZBKn3ZBfX8rtIvlzbv7p17lMxvOJyt5CP3ZBwLyOhiueZB0MiNrdFQeVYnW4UcMwVLmt3gjXqPKf3bfRulKjJtkUMWgtc89dA9puXrif1njg9h6V9bgRtw4EKJmfmwIq4zAdqsKZCMLyB9L1WDXwYytcIi82xEv6p2LjvvzEy5AtYnGBZAgYGgDDoOmG3KwsZD")
+		 @graph = Koala::Facebook::API.new("CAAC7XGwq2isBAPtC8eJ2pbhqHJVM7sVszHxsa4qZCkbzMBu7i5MikpavhEaRAkQXfGlKaZBwQdrYpgA6yqZBGQokZA4MZAEr7pRQZCgG8eYkUhK7UVvsdCzXxVcYOyHmgdElALx4aqZCCTauUlrt5iRYTtCNSQA8sqcQTznZBfceXInkfh05aFA5ModtcZBF7u3if2ToyzKsxyiMpMPZARkN8uLabtu8FyNFcZD")
 		 feed = @graph.get_connections("me", "feed")
 		 @fb = feed.each {|f| f } # it's a subclass of Array
 		 @next_feed = feed.next_page
+		 next_page_params = feed.next_page_params
 		 end
 
 end

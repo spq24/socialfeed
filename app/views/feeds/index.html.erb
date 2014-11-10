@@ -11,8 +11,37 @@
 </ul>
 
 <ul>
-<% @fb.each do |f| %>
-<li>[<%= f["story"] %><%= f["created_time"].to_date.strftime("%m/%d/%Y") %>]</li>
-<% end %>
-<%= @next_feed %>
+	<% @fb.each do |f| %>
+		<% if f["from"]["name"] == "Steve Quatrani" %>
+			<% if f["story"].include? "Quatrani" %>
+				<li><%= f["story"] %><%= f["created_time"].to_date.strftime("%m/%d/%Y") %></li>
+			<% else %>
+				<li>Steve Quatrani posted <%= f["story"] %><%= f["created_time"].to_date.strftime("%m/%d/%Y") %></li>
+			<% end %>
+		<% elsif f["picture"].present? %>
+			<li><%= f["story"] %><br /><%= link_to(image_tag(f["picture"]), f["link"], :target => "_blank") %><%= f["created_time"].to_date.strftime("%m/%d/%Y") %></li>
+		<% elsif f["story"].present? %>
+			<li><%= f["story"] %><%= f["created_time"].to_date.strftime("%m/%d/%Y") %></li>
+		<% elsif f["type"] == "status" %>
+			<li>Steve Quatrani was tagged in a post by <%= f["from"]["name"] %>: <%= f["message"] %><%= f["created_time"].to_date.strftime("%m/%d/%Y") %></li>
+		<% end %>
+	<% end %>
+
+	<% @next_feed.each do |n| %>
+		<% if n["from"]["name"] == "Steve Quatrani" %>
+			<% if n["story"].include? "Quatrani" %>
+				<li><%= link_to(n["story"], n["link"], :target => "_blank") %><%= n["created_time"].to_date.strftime("%m/%d/%Y") %></li>
+			<% else %>
+				<li>Steve Quatrani posted <%= link_to(n["story"], n["link"], :target => "_blank") %><%= n["created_time"].to_date.strftime("%m/%d/%Y") %></li>
+			<% end %>
+		<% elsif n["picture"].present? %>
+			<li><%= n["story"] %><br /><%= link_to(image_tag(n["picture"]), n["link"], :target => "_blank") %><%= n["created_time"].to_date.strftime("%m/%d/%Y") %></li>
+		<% elsif n["story"].present? %>
+			<li><%= link_to(n["story"], n["link"]) %><%= n["created_time"].to_date.strftime("%m/%d/%Y") %></li>
+		<% elsif n["type"] == "status" %>
+			<li>Steve Quatrani was tagged in a post by <%= n["from"]["name"] %>: <%= link_to(n["message"], n["link"], :target => "_blank") %><%= n["created_time"].to_date.strftime("%m/%d/%Y") %></li>
+		<% end %>
+	<% end %>
 </ul>
+
+<%= @page %>
